@@ -1,7 +1,7 @@
 class CreateStreetAddresses < ActiveRecord::Migration[6.0]
   def change
     create_table :street_addresses do |t|
-      t.references :buy,        foreign_key: true
+      t.references :buy,            null: false, foreign_key: true
       t.integer :prefecture_id,     null: false
       t.string  :postal_code,       null: false
       t.string  :municipality,      null: false

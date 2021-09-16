@@ -34,8 +34,8 @@ ActiveRecord::Schema.define(version: 2021_09_01_014349) do
   end
 
   create_table "buys", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.bigint "user_id"
-    t.bigint "item_id"
+    t.bigint "user_id", null: false
+    t.bigint "item_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["item_id"], name: "index_buys_on_item_id"
@@ -58,7 +58,7 @@ ActiveRecord::Schema.define(version: 2021_09_01_014349) do
   end
 
   create_table "street_addresses", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.bigint "buy_id"
+    t.bigint "buy_id", null: false
     t.integer "prefecture_id", null: false
     t.string "postal_code", null: false
     t.string "municipality", null: false
