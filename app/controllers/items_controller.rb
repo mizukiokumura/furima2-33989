@@ -1,7 +1,8 @@
 class ItemsController < ApplicationController
   before_action :move_to_signed_in, only: [:edit, :update]
   before_action :move_to_show, only: [:edit, :update]
-
+  before_action :set_item,     only: [:edit, :show, :update, :destroy]
+  before_action :sold_out,     only: [:edit, :update]
   def index
     @items = Item.includes(:user).order("created_at ASC")
   end
@@ -20,15 +21,14 @@ class ItemsController < ApplicationController
   end
 
   def show
-    @item = Item.find(params[:id])
+    
   end
 
   def edit 
-    @item = Item.find(params[:id])
+    
   end
 
   def update
-    @item = Item.find(params[:id])
     if @item.update(item_params)
       redirect_to root_path
     else
@@ -37,7 +37,6 @@ class ItemsController < ApplicationController
   end
 
   def destroy
-    @item = Item.find(params[:id])
     if @item.destroy
       redirect_to root_path
     end
@@ -60,6 +59,17 @@ class ItemsController < ApplicationController
     @item = Item.find(params[:id])
     unless current_user.id == @item.user.id
         redirect_to item_path(@item.id)
+    end
+  end
+
+  def set_item
+    @item = Item.find(params[:id])
+  end
+
+
+  def sold_out
+    if @item.buy.present?
+      redirect_to root_path
     end
   end
 
