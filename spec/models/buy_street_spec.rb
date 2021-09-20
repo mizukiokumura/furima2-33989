@@ -55,5 +55,48 @@ RSpec.describe BuyStreet, type: :model do
       @street.valid?
       expect(@street.errors.full_messages).to include("Address can't be blank")
     end
+    it 'addressが全角じゃないと保存できないこと' do
+      @street.address = 'hogehuga'
+      @street.valid?
+      expect(@street.errors.full_messages).to include("Address is invalid. Input full-width characters.")
+    end
+    it 'phone_numberがないと保存できないこと' do
+      @street.phone_number = ''
+      @street.valid?
+      expect(@street.errors.full_messages).to include("Phone number can't be blank")
+    end
+
+    it 'phone_numberが半角数字じゃないと保存できないこと' do
+      @street.phone_number = '０８０１２３４５６７８'
+      @street.valid?
+      expect(@street.errors.full_messages).to include("Phone number is invalid. Input half-width characters.")
+    end
+
+    it 'phone_numberが11桁未満だと保存できないこと' do
+      @street.phone_number = '080123456'
+      @street.valid?
+      expect(@street.errors.full_messages).to include("Phone number is invalid. Input half-width characters.")
+    end
+
+    it 'phone_numberが11桁以上だと保存できないこと' do
+      @street.phone_number = '080123456789'
+      @street.valid?
+      expect(@street.errors.full_messages).to include("Phone number is invalid. Input half-width characters.")
+    end
+    it 'tokenが空だと保存できないこと' do
+      @street.token = ''
+      @street.valid?
+      expect(@street.errors.full_messages).to include("Token can't be blank")
+    end
+    it 'user_idが空だと保存できないこと' do
+      @street.user_id = nil
+      @street.valid?
+      expect(@street.errors.full_messages).to include("User can't be blank")
+    end
+    it 'item_idが空だと保存できないこと' do
+      @street.item_id = nil
+      @street.valid?
+      expect(@street.errors.full_messages).to include("Item can't be blank")
+    end
   end
 end
